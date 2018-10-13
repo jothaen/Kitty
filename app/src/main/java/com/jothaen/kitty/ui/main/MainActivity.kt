@@ -3,7 +3,7 @@ package com.jothaen.kitty.ui.main
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.jothaen.kitty.R
-import com.jothaen.kitty.extensions.assignListeners
+import com.jothaen.kitty.extensions.assignClickListeners
 import com.jothaen.kitty.extensions.changeFragment
 import com.jothaen.kitty.ui.favorites.FavoritesFragment
 import com.jothaen.kitty.ui.random.RandomKittyFragment
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showFavoritesScreen() = changeFragment(FavoritesFragment.newInstance(), fragmentContainer.id)
 
-    private fun setListeners() = navigationView.assignListeners(
+    private fun setListeners() = navigationView.assignClickListeners(
             R.id.randomKittyButton to { presenter.onRandomClicked() },
             R.id.favoritesButton to { presenter.onFavoritesClicked() }
     )

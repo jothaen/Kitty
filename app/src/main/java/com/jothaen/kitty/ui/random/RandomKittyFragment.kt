@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.jothaen.kitty.R
-import com.jothaen.kitty.extensions.assignListeners
+import com.jothaen.kitty.extensions.assignClickListeners
 import com.jothaen.kitty.extensions.hide
 import com.jothaen.kitty.extensions.show
 import com.squareup.picasso.Picasso
@@ -45,7 +45,7 @@ class RandomKittyFragment : Fragment(), RandomKittyContract.View {
 
     override fun displayKittyImage(url: String) = picasso.load(url).into(kittyImageView)
 
-    private fun initListeners() = assignListeners(
+    private fun initListeners() = assignClickListeners(
             getNextKittyButton to { presenter.onGetRandomKittyClicked() },
             lineUnlikeButton to { /* TODO */ }
     )

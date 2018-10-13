@@ -3,14 +3,14 @@ package com.jothaen.kitty.extensions
 import android.support.design.widget.BottomNavigationView
 import android.view.View
 
-fun BottomNavigationView.assignListeners(vararg itemToAction: Pair<Int, () -> Unit>) {
+fun BottomNavigationView.assignClickListeners(vararg itemToAction: Pair<Int, () -> Unit>) {
     setOnNavigationItemSelectedListener { clickedItem ->
         itemToAction.forEach { if (it.first == clickedItem.itemId) it.second.invoke() }
         true
     }
 }
 
-fun assignListeners(vararg viewToAction: Pair<View, () -> Unit>) = viewToAction.forEach { pair ->
+fun assignClickListeners(vararg viewToAction: Pair<View, () -> Unit>) = viewToAction.forEach { pair ->
     pair.first.setOnClickListener { pair.second.invoke() }
 }
 
