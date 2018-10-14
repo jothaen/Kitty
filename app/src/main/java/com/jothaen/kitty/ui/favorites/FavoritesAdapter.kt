@@ -9,8 +9,9 @@ import com.jothaen.kitty.data.local.KittyImage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_favorite_kitty.view.*
 
+typealias OnRemoveClicked = (String) -> Unit
 
-class FavoritesAdapter(items: List<KittyImage>) : RecyclerView.Adapter<FavoritesAdapter.Holder>() {
+class FavoritesAdapter(items: List<KittyImage>, private val onRemoveClicked: OnRemoveClicked) : RecyclerView.Adapter<FavoritesAdapter.Holder>() {
 
     private val data = mutableListOf<KittyImage>()
 
@@ -19,10 +20,11 @@ class FavoritesAdapter(items: List<KittyImage>) : RecyclerView.Adapter<Favorites
     }
 
     fun removeItem(id: String) {
-        var position = -1
-        data.forEachIndexed {index, item -> if (item.id == id) position = index}
-        data.removeAt(position)
-        notifyItemRemoved(position)
+        val pos = data.indexOfFirst { it.id == id }
+        data.removeAt(pos)
+        notifyItemRemoved(pos)
+        notifyItemRangeChanged(pos, itemCount - pos)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesAdapter.Holder =
@@ -32,6 +34,7 @@ class FavoritesAdapter(items: List<KittyImage>) : RecyclerView.Adapter<Favorites
 
     override fun onBindViewHolder(holder: FavoritesAdapter.Holder, position: Int) {
         holder.displayPhoto(data[position].url)
+        holder.itemView.setOnClickListener { onRemoveClicked(data[position].id) }
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -25,7 +25,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-         inflater.inflate(R.layout.fragment_favorites, container, false)
+            inflater.inflate(R.layout.fragment_favorites, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,14 +34,20 @@ class FavoritesFragment : Fragment(), FavoritesContract.View {
     }
 
     override fun showList(favorites: List<KittyImage>) = with(favoritesRecyclerView) {
-        favoritesAdapter = FavoritesAdapter(favorites)
+        favoritesAdapter = FavoritesAdapter(favorites) { id ->
+            presenter.onRemoveClicked(id)
+        }
         adapter = favoritesAdapter
         layoutManager = LinearLayoutManager(context)
     }
 
     override fun showEmptyListPlaceholder() = emptyListPlaceholderTextView.show()
 
-    override fun removeFromList(id: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun removeFromList(id: String) = favoritesAdapter.removeItem(id)
+
+    override fun onDestroyView() {
+        presenter.unbind()
+        super.onDestroyView()
     }
+
 }
