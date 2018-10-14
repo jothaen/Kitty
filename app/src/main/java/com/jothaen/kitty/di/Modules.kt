@@ -1,7 +1,11 @@
 package com.jothaen.kitty.di
 
+import android.content.Context
+import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.jothaen.kitty.data.remote.CatsApi
+import com.jothaen.kitty.db.FavoritesStorage
+import com.jothaen.kitty.db.SharedPrefsFavoritesStorage
 import com.jothaen.kitty.ui.main.MainContract
 import com.jothaen.kitty.ui.main.MainPresenter
 import com.jothaen.kitty.ui.random.RandomKittyContract
@@ -13,6 +17,7 @@ import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
 import java.util.concurrent.TimeUnit
 
 val mainModule = module {
@@ -30,12 +35,18 @@ val networkModule = module {
     }
 
     factory { get<Retrofit>().create(CatsApi::class.java) }
-    factory<GetRandomCatUseCase> { GetRandomCatUseCaseImpl(get()) }
+    factory<GetRandomCatUseCase> { GetRandomCatUseCaseImpl(get(), get()) }
 }
 
 val randomModule = module {
-    factory<RandomKittyContract.Presenter> { RandomKittyPresenter(get()) }
+    factory<RandomKittyContract.Presenter> { RandomKittyPresenter(get(), get()) }
     factory { Picasso.get() }
+}
+
+val dataModule = module {
+    factory { androidContext().getSharedPreferences("favorites", Context.MODE_PRIVATE) }
+    factory { Gson() }
+    factory<FavoritesStorage> { SharedPrefsFavoritesStorage(get(), get()) }
 }
 
 private fun getOkHttpClient(): OkHttpClient {

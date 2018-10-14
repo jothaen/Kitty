@@ -45,9 +45,12 @@ class RandomKittyFragment : Fragment(), RandomKittyContract.View {
 
     override fun displayKittyImage(url: String) = picasso.load(url).into(kittyImageView)
 
+    override fun setHeartButtonState(liked: Boolean) =
+            lineUnlikeButton.setImageResource(if (liked) R.drawable.ic_heart else R.drawable.ic_heart_empty)
+
     private fun initListeners() = assignClickListeners(
             getNextKittyButton to { presenter.onGetRandomKittyClicked() },
-            lineUnlikeButton to { /* TODO */ }
+            lineUnlikeButton to { presenter.onHeartClicked() }
     )
 
     override fun onDestroyView() {
