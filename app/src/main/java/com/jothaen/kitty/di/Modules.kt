@@ -6,6 +6,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.jothaen.kitty.data.remote.CatsApi
 import com.jothaen.kitty.db.FavoritesStorage
 import com.jothaen.kitty.db.SharedPrefsFavoritesStorage
+import com.jothaen.kitty.ui.favorites.FavoritesContract
+import com.jothaen.kitty.ui.favorites.FavoritesPresenter
 import com.jothaen.kitty.ui.main.MainContract
 import com.jothaen.kitty.ui.main.MainPresenter
 import com.jothaen.kitty.ui.random.RandomKittyContract
@@ -41,6 +43,10 @@ val networkModule = module {
 val randomModule = module {
     factory<RandomKittyContract.Presenter> { RandomKittyPresenter(get(), get()) }
     factory { Picasso.get() }
+}
+
+val favoritesModule = module {
+    factory<FavoritesContract.Presenter> { FavoritesPresenter(get()) }
 }
 
 val dataModule = module {

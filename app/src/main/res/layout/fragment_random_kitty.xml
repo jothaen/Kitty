@@ -19,11 +19,11 @@
 
         <ImageButton
             android:id="@+id/lineUnlikeButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:padding="8dp"
+            android:padding="16dp"
             android:background="@null"
             android:src="@drawable/ic_heart_empty" />
 
